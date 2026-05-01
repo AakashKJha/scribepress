@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'highlight.js/styles/github.css';
+@import 'katex/dist/katex.min.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-body: 'Newsreader', 'Georgia', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Markdown body tokens */
+  --md-color-text: #1A1614;
+  --md-color-heading: #0F0C0A;
+  --md-color-muted: #6B5D52;
+  --md-color-accent: #A8321E;
+  --md-color-bg: #FAF6EF;
+  --md-color-code-bg: #F1EBDF;
+  --md-color-rule: #D9CFC2;
+
+  --md-font-body: var(--font-body);
+  --md-font-heading: var(--font-display);
+  --md-font-mono: var(--font-mono);
+
+  --md-size-base: 11pt;
+  --md-leading: 1.65;
+
+  /* Page tokens */
+  --page-margin-v: 1in;
+  --page-margin-h: 1in;
+}
+
+[data-theme='technical'] {
+  --md-color-text: #E8E6E3;
+  --md-color-heading: #FFFFFF;
+  --md-color-muted: #A0998F;
+  --md-color-accent: #FFB949;
+  --md-color-bg: #1A1614;
+  --md-color-code-bg: #0F0C0A;
+  --md-color-rule: #3A332D;
+  --md-font-body: 'JetBrains Mono', monospace;
+  --md-font-heading: 'JetBrains Mono', monospace;
+}
+
+[data-theme='manuscript'] {
+  --md-color-text: #2B2622;
+  --md-color-heading: #1A1614;
+  --md-color-accent: #1F4E5F;
+  --md-color-bg: #FFFEF8;
+  --md-color-code-bg: #F4EFE3;
+  --md-font-body: 'Newsreader', serif;
+  --md-font-heading: 'Fraunces', serif;
+}
+
+html, body {
+  background: var(--md-color-bg);
+  color: var(--md-color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
