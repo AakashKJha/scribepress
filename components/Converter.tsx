@@ -30,22 +30,33 @@ export function Converter() {
   const [busy, setBusy] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
 
-  const handleExport = async () => {
-    setBusy(true);
-    try {
-      const html = await renderMarkdown(source, pipelineOptions);
-      await exportToPdf({
-        html,
-        meta: { ...meta, themeId },
-        pageConfig,
-        markdownCss: MARKDOWN_CSS,
-        printCss: PRINT_CSS,
-      });
-    } catch (e) {
-      alert(`Export failed: ${e instanceof Error ? e.message : String(e)}`);
-    } finally {
-      setBusy(false);
+  const handleExport = () => {
+    // Open synchronously on click so the popup is tied to the user gesture,
+    // and without `noopener` so we get a real Window reference (Chromium).
+    const printWindow = window.open('about:blank', '_blank');
+    if (!printWindow) {
+      alert('Popup blocked. Allow popups for this site and try Export again.');
+      return;
     }
+
+    setBusy(true);
+    void (async () => {
+      try {
+        const html = await renderMarkdown(source, pipelineOptions);
+        exportToPdf(printWindow, {
+          html,
+          meta: { ...meta, themeId },
+          pageConfig,
+          markdownCss: MARKDOWN_CSS,
+          printCss: PRINT_CSS,
+        });
+      } catch (e) {
+        printWindow.close();
+        alert(`Export failed: ${e instanceof Error ? e.message : String(e)}`);
+      } finally {
+        setBusy(false);
+      }
+    })();
   };
 
   return (

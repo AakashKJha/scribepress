@@ -48,16 +48,17 @@ export interface ExportInput {
 }
 
 /**
- * Triggers the export flow.
- * Returns once the print window has been opened; the actual print
- * dialog appears asynchronously after Paged.js paginates.
+ * Writes the print document into a tab that the caller opened.
+ *
+ * The caller must call `window.open` synchronously from the export button
+ * handler (before any `await`). Otherwise the browser treats `window.open`
+ * as untrusted and blocks it. Also avoid `noopener` on that `window.open`
+ * call: in Chromium, `noopener` makes `window.open` return `null` even when
+ * the tab opened, which would prevent writing the document.
+ *
+ * The print dialog appears asynchronously after Paged.js paginates.
  */
-export async function exportToPdf(input: ExportInput): Promise<void> {
-  const printWindow = window.open('', '_blank', 'noopener,noreferrer');
-  if (!printWindow) {
-    throw new Error('Popup blocked. Please allow popups and try again.');
-  }
-
+export function exportToPdf(printWindow: Window, input: ExportInput): void {
   const doc = composeDocument(input);
   printWindow.document.open();
   printWindow.document.write(doc);
